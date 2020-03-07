@@ -17,7 +17,7 @@ public class ModelIntake {
 
 
     public String getCarbohydtrate() {
-        return carbohydtrate;
+        return StringManager.putSafe(carbohydtrate);
     }
 
     public void setCarbohydtrate(String carbohydtrate) {
@@ -33,7 +33,7 @@ public class ModelIntake {
     }
 
     public String getAccountID() {
-        return accountID;
+        return StringManager.putSafe(accountID);
     }
 
     public void setAccountID(String accountID) {
@@ -50,7 +50,7 @@ public class ModelIntake {
 
     public String getEnergy() {
 
-        return energy;
+        return StringManager.putSafe(energy);
     }
 
     public void setEnergy(String energy) {
@@ -58,7 +58,7 @@ public class ModelIntake {
     }
 
     public String getProtein() {
-        return protein;
+        return StringManager.putSafe(protein);
     }
 
     public void setProtein(String protein) {
@@ -66,7 +66,7 @@ public class ModelIntake {
     }
 
     public String getTotal_fat() {
-        return total_fat;
+        return StringManager.putSafe(total_fat);
     }
 
     public void setTotal_fat(String total_fat) {
@@ -74,7 +74,7 @@ public class ModelIntake {
     }
 
     public String getEssentialFattyAcid() {
-        return essentialFattyAcid;
+        return StringManager.putSafe(essentialFattyAcid);
     }
 
     public void setEssentialFattyAcid(String essentialFattyAcid) {
@@ -82,7 +82,7 @@ public class ModelIntake {
     }
 
     public String getDietaryFiber() {
-        return dietaryFiber;
+        return StringManager.putSafe(dietaryFiber);
     }
 
     public void setDietaryFiber(String dietaryFiber) {
@@ -90,7 +90,7 @@ public class ModelIntake {
     }
 
     public String getWater() {
-        return water;
+        return StringManager.putSafe(water);
     }
 
     public void setWater(String water) {

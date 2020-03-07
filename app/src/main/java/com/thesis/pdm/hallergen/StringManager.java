@@ -32,4 +32,12 @@ public class StringManager {
 
         return found.substring(found.lastIndexOf(" ") + 1).replace("(", "").replace(")", "").replace("g", "").replace("L", "").replaceAll("\\D+", "");
     }
+
+
+    public  static String putSafe(String v){
+        if(v == null){
+            return "0.00";
+        }
+        return v;
+    }
 }

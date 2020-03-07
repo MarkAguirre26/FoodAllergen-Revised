@@ -46,7 +46,7 @@ import static com.thesis.pdm.hallergen.Variable.logUser;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener,
         AdapterRecyclerFamMember.OnClickFamilyMemberListener, AdapterRecyclerFamMember.OnLongClickFamilyMemberListener,
-        AdapterRecyclerAllowanceLeft.OnClickAllowanceLeftListener, AdapterRecyclerAllowanceLeft.OnLongClickAllowanceLeftListener   {
+        AdapterRecyclerAllowanceLeft.OnClickAllowanceLeftListener, AdapterRecyclerAllowanceLeft.OnLongClickAllowanceLeftListener {
 
     private CheckBox cbKeepLogin, cbNotification;
     //Allergies
@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
 
     private DatabaseAdapter db;
-
 
 
     @Override
@@ -426,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         recyclerView.setLayoutManager(layoutManager);
         refreshList();
 
-///Allowance Left Preview Table
+        //Allowance Left Preview Table
         LinearLayoutManager layoutManagerAllowanceLeft = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView_allowance_left = findViewById(R.id.recyclerAllowanceLeft);
         recyclerView_allowance_left.setLayoutManager(layoutManagerAllowanceLeft);
@@ -449,20 +448,28 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
     private void refreshListAllowanceLeft() {
 
-
-//        logUser.setFamily(db.getFamilyData(logUser));
-//        List<ModelsFamily> families = logUser.getFamily();
-//        ArrayList<ModelsFamily> familyArrayList = new ArrayList<>();
-//        familyArrayList.addAll(families);
-
-        //        listView_allowance_left_list = findViewById(R.id.listView_allowance_left_list);
         ArrayList<ModelAllowanceLeft> arrayList = new ArrayList<ModelAllowanceLeft>();
-        arrayList.add(new ModelAllowanceLeft("Ken", "1", "2", "3", "4", "5", "6", "7"));
-        arrayList.add(new ModelAllowanceLeft("Chane", "8", "9", "10", "11", "12", "6", "7"));
-//
-//        AllowanceLeftAdapter customAdapter = new AllowanceLeftAdapter(this, arrayList);
-//        listView_allowance_left_list.setAdapter(customAdapter);
 
+        logUser.setFamily(db.getFamilyData(logUser));
+        List<ModelsFamily> families = logUser.getFamily();
+        ArrayList<ModelsFamily> familyArrayList = new ArrayList<>();
+        familyArrayList.addAll(families);
+
+        for (ModelsFamily mf : familyArrayList) {
+            DatabaseAdapter da = new DatabaseAdapter(this);
+            ModelIntake modelIntake = da.getIntakeData(mf.getFamilyUID());
+            arrayList.add(new ModelAllowanceLeft(mf.getName(),
+                    modelIntake.getEnergy(),
+                    modelIntake.getProtein(),
+                    modelIntake.getTotal_fat(),
+                    modelIntake.getCarbohydtrate(),
+                    modelIntake.getEssentialFattyAcid(),
+                    modelIntake.getDietaryFiber(),
+                    modelIntake.getWater()));
+        }
+        //        arrayList.add(new ModelAllowanceLeft("Ken", "1", "2", "3", "4", "5", "6", "7"));
+//        arrayList.add(new ModelAllowanceLeft("Chane", "8", "9", "10", "11", "12", "6", "7"));
+//
 
         adapter_allowance_left = new AdapterRecyclerAllowanceLeft(this, arrayList, this, this);
         recyclerView_allowance_left.setAdapter(adapter_allowance_left);
