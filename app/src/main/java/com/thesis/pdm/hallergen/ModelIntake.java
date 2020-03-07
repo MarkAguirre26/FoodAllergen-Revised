@@ -49,6 +49,7 @@ public class ModelIntake {
     }
 
     public String getEnergy() {
+
         return energy;
     }
 

@@ -9,4 +9,5 @@ public class Variable {
     public static String isNew;
     public static List<ModelsUser> UserList;// = new ArrayList<>();
     public static String outputText = "";
+    public static String personName, foodAllergen;
 }

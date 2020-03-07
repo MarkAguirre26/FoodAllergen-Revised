@@ -114,14 +114,7 @@
         layout="@layout/con_imagetotext_preview"
         android:visibility="gone"/>
 
-    <include
-        android:id="@+id/con_result_preview"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/btnScanFoood"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        layout="@layout/con_preview_result"
-        android:visibility="gone"/>
+
 
     <Button
         android:id="@+id/btnScanFoood"

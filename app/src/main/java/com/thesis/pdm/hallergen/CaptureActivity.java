@@ -45,7 +45,7 @@ public class CaptureActivity extends AppCompatActivity {
     private ArrayList<String> foodIngredients = new ArrayList<String>();
     private ArrayList<ModelsAllergy> selectedAllergies = new ArrayList<ModelsAllergy>();
     private ImageView imageTakePreview;
-    private TextView tvTitle, tvOutputText, tvImageTextTitle, tvResultTitle, tvResult, tvPersonName, tvFoodAllergen;
+    private TextView tvTitle, tvOutputText, tvImageTextTitle, tvFoodAllergen;
     ArrayList<String> resultList = new ArrayList<String>();
     ArrayList<String> allergyList = new ArrayList<String>();
     String checkResult = "";
@@ -63,9 +63,9 @@ public class CaptureActivity extends AppCompatActivity {
         imageTakePreview = findViewById(R.id.imageTakePreview);
         tvOutputText = findViewById(R.id.tvOutput);
         tvImageTextTitle = findViewById(R.id.tvImageTextTitle);
-        tvResultTitle = findViewById(R.id.tvResultTitle);
-        tvResult = findViewById(R.id.tvResult);
-        tvPersonName = findViewById(R.id.txtPersonName);
+//        tvResultTitle = findViewById(R.id.tvResultTitle);
+//        tvResult = findViewById(R.id.tvResult);
+//        tvPersonName = findViewById(R.id.txtPersonName);
         tvFoodAllergen = findViewById(R.id.txtFoodAllergen);
 
     }
@@ -120,6 +120,7 @@ public class CaptureActivity extends AppCompatActivity {
 
         tvTitle.setText(textpreview.equals("Nutrition") ? R.string.scan_nutriontions : R.string.scan_ingredients);
         findViewById(R.id.con_imagetotext_preview).setVisibility(View.VISIBLE);
+        findViewById(R.id.con_imagetotext_preview).setVisibility(View.VISIBLE);
         findViewById(R.id.con_imagetotext_preview).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_trans_bot_norm));
         btnScanFood.setText(R.string.check_for_family);
         btnScanFood.setTag("CHECK");
@@ -127,6 +128,7 @@ public class CaptureActivity extends AppCompatActivity {
 
     //Back to Image
     private void HidePreview() {
+
         tvTitle.setText(R.string.str_scan_foodproducts);
         findViewById(R.id.con_imagetotext_preview).setVisibility(View.GONE);
         findViewById(R.id.con_imagetotext_preview).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_trans_norm_bot));
@@ -175,12 +177,13 @@ public class CaptureActivity extends AppCompatActivity {
             HidePreview();
             String personName = "", foodAllergen = "";
 
-            for(int i=0;i< da.countFamilies(); i++) {
+
+            for (int i = 0; i < da.countFamilies(); i++) {
                 loadFamilies = logUser.getFamily().get(i);
                 selectedAllergies = loadFamilies.getAllergylist();
                 for (ModelsAllergy allergy : selectedAllergies) {
-                    for(String alergy : foodIngredients) {
-                        if(alergy.contains(allergy.getAllergyName())){
+                    for (String alergy : foodIngredients) {
+                        if (alergy.contains(allergy.getAllergyName())) {
 //                            resultList.add(loadFamilies.getName() + "\n");
 //                            allergyList.add(allergy.getAllergyName() + "\n");
 //                            checkResult += loadFamilies.getName() + " is allergy in " + allergy.getAllergyName() + "\n";
@@ -191,14 +194,14 @@ public class CaptureActivity extends AppCompatActivity {
                 }
             }
 
-            showResult(personName,foodAllergen);
+            showResult(personName, foodAllergen);
+
         }
         // check if contain nutrition
         else if (outputText.contains("NUTRITION") || outputText.contains("Nutrition") || outputText.contains("nutrition")) {
             view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_pulse_out));
             startActivity(new Intent(this, CheckNutrientIntakeActivity.class));
         }
-
 
 
     }
@@ -249,7 +252,7 @@ public class CaptureActivity extends AppCompatActivity {
     // All in one button
     public void OnClick_ScanFood(View view) {
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_pulse_out));
-        btnScanFood = (Button) view;
+//        btnScanFood = (Button) view;
         if (btnScanFood.getTag().toString().equals("SCAN")) {
             // validate if have image
             if (imageTakePreview.getTag().toString().equals("NoImage")) {
@@ -277,6 +280,8 @@ public class CaptureActivity extends AppCompatActivity {
             }
             // display page of text
             ShowPreview(tvImageTextTitle.getText().toString());
+
+
         } else {
             CheckHarfulIngredients(view);
         }
@@ -284,12 +289,18 @@ public class CaptureActivity extends AppCompatActivity {
 
     private void showResult(String personName, String foodAllergen) {
         tvTitle.setText(R.string.check_result);
+
 //        tvResultTitle.setText("Check Result");
 //        tvResult.setText(result);
-        tvPersonName.setText(personName);
-        tvFoodAllergen.setText(foodAllergen);
-        findViewById(R.id.con_result_preview).setVisibility(View.VISIBLE);
-        findViewById(R.id.con_result_preview).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_trans_bot_norm));
+//        tvPersonName.setText(personName);
+//        tvFoodAllergen.setText(foodAllergen);
+//        findViewById(R.id.con_result_preview).setVisibility(View.VISIBLE);
+//        findViewById(R.id.con_result_preview).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_trans_bot_norm));
+
+        Variable.personName = personName;
+        Variable.foodAllergen = foodAllergen;
+        startActivity(new Intent(getApplicationContext(), NotAllowedIngredientsForFamily.class));
+        overridePendingTransition(0, 0);
 
     }
 }

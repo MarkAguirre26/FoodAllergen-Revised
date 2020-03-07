@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/allowance_left_name"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Peter So"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Energy"
+        android:textColor="@color/colorGray"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/allowance_left_energy"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Protein"
+        android:textColor="@color/colorGray"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/allowance_left_protein"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+
+        android:text="0" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Total Fat"
+        android:textColor="@color/colorGray"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/allowance_left_total_fat"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+
+        android:text="0" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Carbohydrate"
+        android:textColor="@color/colorGray"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/allowance_left_carbohydrate"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+
+        android:text="0" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Essential Fatty Acid"
+        android:textColor="@color/colorGray"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/allowance_left_essential_fatty_acid"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+
+        android:text="0" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Dietary Fiber"
+        android:textColor="@color/colorGray"
+        android:textSize="9sp" />
+
+
+    <TextView
+        android:id="@+id/allowance_left_dietary_fiber"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="0" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Water"
+        android:textColor="@color/colorGray"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/allowance_left_water"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="0" />
+</LinearLayout>

@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/icon_applogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".NotAllowedIngredientsForFamily"></activity>
         <activity android:name=".FoodList" />
         <activity android:name=".CheckNutrientIntakeActivity" />
         <activity android:name=".EditAccountActivity" />

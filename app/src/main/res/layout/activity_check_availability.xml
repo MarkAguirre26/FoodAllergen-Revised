@@ -336,12 +336,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="left"
-                        android:gravity="right|center_vertical"
-                        android:text="Essential Fatty" />
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="left"
+                            android:gravity="right|center_vertical"
+                            android:text="Essential Fatty" />
 
                     <TextView
                         android:id="@+id/txtEssentialFattyDailyIntake"

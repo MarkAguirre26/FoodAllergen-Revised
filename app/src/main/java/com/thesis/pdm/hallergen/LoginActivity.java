@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
 
         etUsername.setText("mark");
-        etPassword.setText("aaaaaaaaaaa");
+        etPassword.setText("aaaaaaaaaa");
 
         db = new DatabaseAdapter(getApplicationContext());
 

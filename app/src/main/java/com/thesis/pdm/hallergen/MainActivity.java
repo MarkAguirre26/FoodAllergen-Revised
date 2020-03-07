@@ -21,6 +21,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -35,9 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,7 +45,8 @@ import java.util.List;
 import static com.thesis.pdm.hallergen.Variable.logUser;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener,
-        AdapterRecyclerFamMember.OnClickFamilyMemberListener, AdapterRecyclerFamMember.OnLongClickFamilyMemberListener {
+        AdapterRecyclerFamMember.OnClickFamilyMemberListener, AdapterRecyclerFamMember.OnLongClickFamilyMemberListener,
+        AdapterRecyclerAllowanceLeft.OnClickAllowanceLeftListener, AdapterRecyclerAllowanceLeft.OnLongClickAllowanceLeftListener   {
 
     private CheckBox cbKeepLogin, cbNotification;
     //Allergies
@@ -79,6 +79,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     private AdapterRecyclerFamMember adapter;
     private RecyclerView recyclerView;
 
+    private AdapterRecyclerAllowanceLeft adapter_allowance_left;
+    private RecyclerView recyclerView_allowance_left;
+
+
     private ModelsFamily selectedFamMember = new ModelsFamily();
     private ArrayList<ModelsAllergy> selectedAllergies = new ArrayList<>();
     private ArrayList<CheckBox> allergyList = new ArrayList<>();
@@ -87,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
 
     private DatabaseAdapter db;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         prefEdit = pref.edit();
         db = new DatabaseAdapter(getApplicationContext());
         initID();
+
 
         if (!UtilityNetworkConnectivity.checkNetworkConnection(getApplicationContext())) {
             Toast.makeText(getApplicationContext(), "Offline Mode", Toast.LENGTH_SHORT).show();
@@ -160,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
 
     private void initID() {
+
         conSettings = findViewById(R.id.con_settings);
         conUserAccount = findViewById(R.id.con_user_account);
         cbKeepLogin = findViewById(R.id.cbKeepLogin);
@@ -418,16 +426,11 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         recyclerView.setLayoutManager(layoutManager);
         refreshList();
 
-
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-        });
-        graph.addSeries(series);
+///Allowance Left Preview Table
+        LinearLayoutManager layoutManagerAllowanceLeft = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView_allowance_left = findViewById(R.id.recyclerAllowanceLeft);
+        recyclerView_allowance_left.setLayoutManager(layoutManagerAllowanceLeft);
+        refreshListAllowanceLeft();
 
 
     }
@@ -442,6 +445,27 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         adapter = new AdapterRecyclerFamMember(this, familyArrayList, this, this);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void refreshListAllowanceLeft() {
+
+
+//        logUser.setFamily(db.getFamilyData(logUser));
+//        List<ModelsFamily> families = logUser.getFamily();
+//        ArrayList<ModelsFamily> familyArrayList = new ArrayList<>();
+//        familyArrayList.addAll(families);
+
+        //        listView_allowance_left_list = findViewById(R.id.listView_allowance_left_list);
+        ArrayList<ModelAllowanceLeft> arrayList = new ArrayList<ModelAllowanceLeft>();
+        arrayList.add(new ModelAllowanceLeft("Ken", "1", "2", "3", "4", "5", "6", "7"));
+        arrayList.add(new ModelAllowanceLeft("Chane", "8", "9", "10", "11", "12", "6", "7"));
+//
+//        AllowanceLeftAdapter customAdapter = new AllowanceLeftAdapter(this, arrayList);
+//        listView_allowance_left_list.setAdapter(customAdapter);
+
+
+        adapter_allowance_left = new AdapterRecyclerAllowanceLeft(this, arrayList, this, this);
+        recyclerView_allowance_left.setAdapter(adapter_allowance_left);
     }
 
     private void ClearFamInfo() {
@@ -619,7 +643,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public void OnClickFamilyMemberListener(int position) {
 //        selectedFamMember = _familyList.get(position);
         selectedFamMember = logUser.getFamily().get(position);
-        tvFamName.setText(selectedFamMember.getName() + " - "+ Utility.getAge(selectedFamMember.getBirthday()));
+        tvFamName.setText(selectedFamMember.getName() + " - " + Utility.getAge(selectedFamMember.getBirthday()));
         tvFamRelation.setText(selectedFamMember.getRelation());
         tvFamBirthday.setText(selectedFamMember.getBirthday());
         tvFamHeight.setText(String.valueOf(selectedFamMember.getHeight()));
@@ -641,7 +665,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public void OnLongClickFamilyMemberListener(int position) {
         selectedFamMember = logUser.getFamily().get(position);
         TextView tvname = findViewById(R.id.tvEditDelete);
-        tvname.setText(selectedFamMember.getName() +"-"+Utility.getAge(selectedFamMember.getBirthday()));
+        tvname.setText(selectedFamMember.getName() + "-" + Utility.getAge(selectedFamMember.getBirthday()));
         findViewById(R.id.con_edit_delete).setVisibility(View.VISIBLE);
         findViewById(R.id.btnSaveFamily).setTag(String.valueOf(position));
     }
@@ -649,7 +673,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public void OnCLick_Edit(View view) {
         findViewById(R.id.btnSaveFamily).setTag("Edit");
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_pulse_out));
-        etFamName.setText(selectedFamMember.getName() +"-"+Utility.getAge(selectedFamMember.getBirthday()));
+        etFamName.setText(selectedFamMember.getName() + "-" + Utility.getAge(selectedFamMember.getBirthday()));
         etFamRelation.setText(selectedFamMember.getRelation());
         etFamBirthday.setText(selectedFamMember.getBirthday());
         String[] date = selectedFamMember.getBirthday().split("/");
@@ -695,14 +719,15 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
     public void OnClick_Ingredients(View view) {
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_pulse_out));
-        startActivity(new Intent(this,FoodList.class));
+        startActivity(new Intent(this, FoodList.class));
     }
 
     public void OnClick_Pharmacy(View view) {
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_pulse_out));
         //startActivity(new Intent(this,PharmacyActivity.class));
         String url = "http://maps.google.co.uk/maps?q=Pharmacy&hl=en";
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));      intent.setClassName("com.google.android.apps.maps","com.google.android.maps.MapsActivity");
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
         startActivity(intent);
     }
 
@@ -866,4 +891,13 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         } // 8
     }
 
+    @Override
+    public void OnClickAllowanceLeftListener(int position) {
+
+    }
+
+    @Override
+    public void OnLongClickAllowanceLeftListener(int position) {
+
+    }
 }

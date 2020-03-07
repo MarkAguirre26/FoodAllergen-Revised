@@ -182,7 +182,7 @@ public class DatabaseAdapter {
         db.close();
     }
 
-    public int countFamilies () {
+    public int countFamilies() {
         SQLiteDatabase db = myhelper.getWritableDatabase();
         String count = "SELECT count(*) FROM " + myDbHelper.TABLE_NAME_FAMILY + "";
         Cursor mcursor = db.rawQuery(count, null);
@@ -403,9 +403,10 @@ public class DatabaseAdapter {
     public ModelIntake getIntakeData(String familyID) {
         ModelIntake modelIntake = new ModelIntake();
         SQLiteDatabase db = myhelper.getWritableDatabase();
-
+        Log.d("Debug_A", "Debug_A");
 
         if (checkTableIfNotEmpty()) {
+            Log.d("Debug_B", "Debug_B");
 //            if (checkForTableExists(db)) {
             String[] columns = {
                     myDbHelper.ALLOWANCE_UID,
@@ -431,7 +432,7 @@ public class DatabaseAdapter {
 
             if (cursor.moveToFirst()) {
 
-
+                Log.d("Debug_C", "Debug_C");
                 String allowanceID = String.valueOf(cursor.getInt(cursor.getColumnIndex(myDbHelper.ALLOWANCE_UID)));
                 String accountID = cursor.getString(cursor.getColumnIndex(myDbHelper.ACCOUNT_ID));
                 String famId = cursor.getString(cursor.getColumnIndex(myDbHelper.FAM_GUID));
@@ -460,6 +461,18 @@ public class DatabaseAdapter {
 //            } else{
 //                Log.d("allowanceData", "Else Walang alowance data");
             }
+        } else {
+            Log.e("herehere", "emtry");
+            modelIntake.setId("0");
+            modelIntake.setAccountID("0");
+            modelIntake.setFamId("0");
+            modelIntake.setEnergy("0");
+            modelIntake.setProtein("0");
+            modelIntake.setTotal_fat("0");
+            modelIntake.setCarbohydtrate("0");
+            modelIntake.setEssentialFattyAcid("0");
+            modelIntake.setDietaryFiber("0");
+            modelIntake.setWater("0");
         }
 
 
@@ -479,7 +492,6 @@ public class DatabaseAdapter {
 
         cursor.close();
         db.close();
-
 
         if (count > 0) {
             return true;
