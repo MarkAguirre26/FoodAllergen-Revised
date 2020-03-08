@@ -10,4 +10,5 @@ public class Variable {
     public static List<ModelsUser> UserList;// = new ArrayList<>();
     public static String outputText = "";
     public static String personName, foodAllergen;
+    public static String WALANG_DATA = "404";
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.thesis.pdm.hallergen.Variable.WALANG_DATA;
 import static com.thesis.pdm.hallergen.Variable.logUser;
 
 public class CheckNutrientIntakeActivity extends AppCompatActivity {
@@ -57,7 +58,7 @@ public class CheckNutrientIntakeActivity extends AppCompatActivity {
 
     ScrollView mainPage, prohibitedPage;
 
-    ListView listViewProhibited;
+//    ListView listViewProhibited;
 
     Button btnProceed;
 
@@ -182,30 +183,52 @@ public class CheckNutrientIntakeActivity extends AppCompatActivity {
         double WaterDailyIntake = txtWaterDailyIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtWaterDailyIntake.getText().toString());
 
         //scanned
-        double EnergyScannedIntake = txtEnergyScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtEnergyScannedIntake.getText().toString());
-        double ProteinScannedIntake = txtProteinScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtProteinScannedIntake.getText().toString());
-        double TotalFatScannedIntake = txtTotalFatScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtTotalFatScannedIntake.getText().toString());
-        double CarbohydrateScannedIntake = txtCarbohydrateScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtCarbohydrateScannedIntake.getText().toString());
-        double EssentialFattyScannedIntake = txtEssentialFattyScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtEssentialFattyScannedIntake.getText().toString());
-        double DietaryFiberScannedIntake = txtDietaryFiberScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtDietaryFiberScannedIntake.getText().toString());
-        double WaterScannedIntake = txtWaterScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtWaterScannedIntake.getText().toString());
+//        double EnergyScannedIntake = txtEnergyScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtEnergyScannedIntake.getText().toString());
+//        double ProteinScannedIntake = txtProteinScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtProteinScannedIntake.getText().toString());
+//        double TotalFatScannedIntake = txtTotalFatScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtTotalFatScannedIntake.getText().toString());
+//        double CarbohydrateScannedIntake = txtCarbohydrateScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtCarbohydrateScannedIntake.getText().toString());
+//        double EssentialFattyScannedIntake = txtEssentialFattyScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtEssentialFattyScannedIntake.getText().toString());
+//        double DietaryFiberScannedIntake = txtDietaryFiberScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtDietaryFiberScannedIntake.getText().toString());
+//        double WaterScannedIntake = txtWaterScannedIntake.getText().toString().equals("") ? 0.00 : Double.valueOf(txtWaterScannedIntake.getText().toString());
 
 
         DatabaseAdapter da = new DatabaseAdapter(this);
-        ModelIntake modelIntake = da.getIntakeData(family_guid);
-        txtEnergyAllowanceLeftIntake.setText(String.valueOf(EnergyDailyIntake - Double.valueOf(modelIntake.getEnergy()) - EnergyScannedIntake));
-        txtProteinAllowanceLeftIntake.setText(String.valueOf(ProteinDailyIntake - Double.valueOf(modelIntake.getProtein()) - ProteinScannedIntake));
-        txtTotalFatAllowanceLeftIntake.setText(String.valueOf(TotalFatDailyIntake - Double.valueOf(modelIntake.getTotal_fat()) - TotalFatScannedIntake));
-        txtCarbohydrateAllowanceLeftIntake.setText(String.valueOf(CarbohydrateDailyIntake - Double.valueOf(modelIntake.getCarbohydtrate()) - CarbohydrateScannedIntake));
-        txtEssentialFattyAllowanceLeftIntake.setText(String.valueOf(EssentialFattyDailyIntake - Double.valueOf(modelIntake.getEssentialFattyAcid()) - EssentialFattyScannedIntake));
-        txtDietaryFiberAllowanceLeftIntake.setText(String.valueOf(DietaryFiberDailyIntake - Double.valueOf(modelIntake.getDietaryFiber()) - DietaryFiberScannedIntake));
-        txtWaterAllowanceLeftIntake.setText(String.valueOf(WaterDailyIntake - Double.valueOf(modelIntake.getWater()) - WaterScannedIntake));
+        ModelIntake allowanceLeft = da.getIntakeData(family_guid);
 
+
+        if (allowanceLeft.getId() == null || allowanceLeft.getId().equals(WALANG_DATA)) {
+            txtEnergyAllowanceLeftIntake.setText(String.valueOf(EnergyDailyIntake));
+            txtProteinAllowanceLeftIntake.setText(String.valueOf(ProteinDailyIntake));
+            txtTotalFatAllowanceLeftIntake.setText(String.valueOf(TotalFatDailyIntake));
+            txtCarbohydrateAllowanceLeftIntake.setText(String.valueOf(CarbohydrateDailyIntake));
+            txtEssentialFattyAllowanceLeftIntake.setText(String.valueOf(EssentialFattyDailyIntake));
+            txtDietaryFiberAllowanceLeftIntake.setText(String.valueOf(DietaryFiberDailyIntake));
+            txtWaterAllowanceLeftIntake.setText(String.valueOf(WaterDailyIntake));
+        } else {
+            txtEnergyAllowanceLeftIntake.setText(String.valueOf(allowanceLeft.getEnergy()));
+            txtProteinAllowanceLeftIntake.setText(String.valueOf(allowanceLeft.getProtein()));
+            txtTotalFatAllowanceLeftIntake.setText(String.valueOf(allowanceLeft.getTotal_fat()));
+            txtCarbohydrateAllowanceLeftIntake.setText(String.valueOf(allowanceLeft.getCarbohydtrate()));
+            txtEssentialFattyAllowanceLeftIntake.setText(String.valueOf(allowanceLeft.getEssentialFattyAcid()));
+            txtDietaryFiberAllowanceLeftIntake.setText(String.valueOf(allowanceLeft.getDietaryFiber()));
+            txtWaterAllowanceLeftIntake.setText(String.valueOf(allowanceLeft.getWater()));
+        }
+
+
+    }
+
+    private String minusCurrentToScanned(String current, String scanned) {
+        double result = 0.00;
+        if (scanned.equals("") || scanned.isEmpty()) {
+            scanned = "0.00";
+        }
+        result = Double.valueOf(current) - Double.valueOf(scanned);
+        return String.valueOf(result);
     }
 
     private void initComponents() {
         btnIntakeAndUndo = findViewById(R.id.btnIntakeAndUndo);
-        listViewProhibited = findViewById(R.id.listViewProhibited);
+//        listViewProhibited = findViewById(R.id.listViewProhibited);
         mainPage = findViewById(R.id.scrollPage);
         prohibitedPage = findViewById(R.id.scrollProhiitedPage);
         txtNoFamily = findViewById(R.id.txtNoFamily);
@@ -257,16 +280,16 @@ public class CheckNutrientIntakeActivity extends AppCompatActivity {
             modelIntake.setId("0");
             modelIntake.setAccountID(logUser.getUserUID());
             modelIntake.setFamId(fam.getFamilyUID());
-            modelIntake.setEnergy(txtEnergyAllowanceLeftIntake.getText().toString());
-            modelIntake.setProtein(txtProteinAllowanceLeftIntake.getText().toString());
-            modelIntake.setTotal_fat(txtTotalFatAllowanceLeftIntake.getText().toString());
-            modelIntake.setCarbohydtrate(txtCarbohydrateAllowanceLeftIntake.getText().toString());
-            modelIntake.setEssentialFattyAcid(txtEssentialFattyAllowanceLeftIntake.getText().toString());
-            modelIntake.setDietaryFiber(txtDietaryFiberAllowanceLeftIntake.getText().toString());
-            modelIntake.setWater(txtWaterAllowanceLeftIntake.getText().toString());
+            modelIntake.setEnergy(minusCurrentToScanned(txtEnergyAllowanceLeftIntake.getText().toString(), txtEnergyScannedIntake.getText().toString()));
+            modelIntake.setProtein(minusCurrentToScanned(txtProteinAllowanceLeftIntake.getText().toString(), txtProteinScannedIntake.getText().toString()));
+            modelIntake.setTotal_fat(minusCurrentToScanned(txtTotalFatAllowanceLeftIntake.getText().toString(), txtTotalFatScannedIntake.getText().toString()));
+            modelIntake.setCarbohydtrate(minusCurrentToScanned(txtCarbohydrateAllowanceLeftIntake.getText().toString(), txtCarbohydrateScannedIntake.getText().toString()));
+            modelIntake.setEssentialFattyAcid(minusCurrentToScanned(txtEssentialFattyAllowanceLeftIntake.getText().toString(), txtEssentialFattyScannedIntake.getText().toString()));
+            modelIntake.setDietaryFiber(minusCurrentToScanned(txtDietaryFiberAllowanceLeftIntake.getText().toString(), txtDietaryFiberScannedIntake.getText().toString()));
+            modelIntake.setWater(minusCurrentToScanned(txtWaterAllowanceLeftIntake.getText().toString(), txtWaterScannedIntake.getText().toString()));
             DatabaseAdapter databaseAdapter = new DatabaseAdapter(this);
             databaseAdapter.insertIntakeData(modelIntake);
-
+            getAllowanceIntake(fam.getFamilyUID());
 
         } else {
             btnIntakeAndUndo.setText("Intake");

@@ -10,6 +10,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.thesis.pdm.hallergen.Variable.WALANG_DATA;
 import static com.thesis.pdm.hallergen.Variable.logUser;
 
 
@@ -463,7 +464,7 @@ public class DatabaseAdapter {
             }
         } else {
             Log.e("herehere", "emtry");
-            modelIntake.setId("0");
+            modelIntake.setId(WALANG_DATA);
             modelIntake.setAccountID("0");
             modelIntake.setFamId("0");
             modelIntake.setEnergy("0");

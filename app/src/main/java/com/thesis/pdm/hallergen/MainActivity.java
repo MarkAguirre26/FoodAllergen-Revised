@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.thesis.pdm.hallergen.Variable.WALANG_DATA;
 import static com.thesis.pdm.hallergen.Variable.logUser;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener,
@@ -458,14 +459,26 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         for (ModelsFamily mf : familyArrayList) {
             DatabaseAdapter da = new DatabaseAdapter(this);
             ModelIntake modelIntake = da.getIntakeData(mf.getFamilyUID());
-            arrayList.add(new ModelAllowanceLeft(mf.getName(),
-                    modelIntake.getEnergy(),
-                    modelIntake.getProtein(),
-                    modelIntake.getTotal_fat(),
-                    modelIntake.getCarbohydtrate(),
-                    modelIntake.getEssentialFattyAcid(),
-                    modelIntake.getDietaryFiber(),
-                    modelIntake.getWater()));
+            if (modelIntake == null) {
+                arrayList.add(new ModelAllowanceLeft(mf.getName(),
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        ""));
+            } else {
+                arrayList.add(new ModelAllowanceLeft(mf.getName(),
+                        modelIntake.getEnergy(),
+                        modelIntake.getProtein(),
+                        modelIntake.getTotal_fat(),
+                        modelIntake.getCarbohydtrate(),
+                        modelIntake.getEssentialFattyAcid(),
+                        modelIntake.getDietaryFiber(),
+                        modelIntake.getWater()));
+            }
+
         }
         //        arrayList.add(new ModelAllowanceLeft("Ken", "1", "2", "3", "4", "5", "6", "7"));
 //        arrayList.add(new ModelAllowanceLeft("Chane", "8", "9", "10", "11", "12", "6", "7"));
