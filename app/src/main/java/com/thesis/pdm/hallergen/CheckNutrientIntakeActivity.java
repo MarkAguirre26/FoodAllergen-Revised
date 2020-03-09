@@ -348,6 +348,10 @@ public class CheckNutrientIntakeActivity extends AppCompatActivity {
         builder.setTitle("Make your selection");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
+                
+                btnIntakeAndUndo.setText("Intake");
+                btnIntakeAndUndo.setBackgroundResource(R.drawable.btn_rounded);
+
                 // Do something with the selection
                 txtNameIntake.setText(items[item]);
                 setData(item);
