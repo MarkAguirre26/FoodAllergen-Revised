@@ -107,6 +107,7 @@ public class ContactsActivity extends AppCompatActivity implements AdapterRecycl
 
     private void RefreshList() {
 
+        _contactsList.clear();
         List<ModelsContact> contactList = db.getContactData();
         _contactsList.addAll(contactList);
         adapter = new AdapterRecyclerContact(this, _contactsList, this);
@@ -173,10 +174,20 @@ public class ContactsActivity extends AppCompatActivity implements AdapterRecycl
     @Override
     public void OnLongClickContactListener(int position) {
         selectedContact = _contactsList.get(position);
-        TextView tvname = findViewById(R.id.tvEditDelete);
-        tvname.setText(selectedContact.getContactName());
-        findViewById(R.id.con_edit_delete).setVisibility(View.VISIBLE);
-        findViewById(R.id.btnSaveContact).setTag(String.valueOf(position));
+
+//        findViewById(R.id.con_edit_delete).setVisibility(View.VISIBLE);
+
+//        TextView tvname = findViewById(R.id.tvEditDelete);
+//        tvname.setText(selectedContact.getContactName());
+        Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+        smsIntent.setType("vnd.android-dir/mms-sms");
+        smsIntent.putExtra("address", selectedContact.getContactNumber());
+        smsIntent.putExtra("sms_body","");
+        startActivity(smsIntent);
+
+//        findViewById(R.id.btnSaveContact).setTag(String.valueOf(position));
+
+
     }
 
     public void OnCLick_Edit(View view) {
